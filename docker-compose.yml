@@ -1,0 +1,30 @@
+version: '2'
+services: 
+  locust:
+    image: locustio/locust
+    volumes: 
+        - .:/locust:ro
+    working_dir: /locust
+    ports: 
+        - 8089:8089
+    command: /usr/local/bin/locust -H http://stubby4j:8882 -f /locust/locustfile.py
+    depends_on: 
+      - stubby4j
+  stubby4j:
+    image: bbranquinho/stubby4j-docker
+    ports:
+        - 8882:8882
+    environment:
+        STUBBY_PORT: 8882
+    volumes:
+        - ./stubby.yml:/usr/local/stubby.yml
+  locusttest:
+    image: locustio/locust
+    volumes: 
+        - .:/locust:ro
+    working_dir: /locust
+    command: /usr/local/bin/python locustfile-tests.py
+    environment: 
+      - HOST=http://stubby4j:8882
+    depends_on:
+      - stubby4j

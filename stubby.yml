@@ -1,0 +1,27 @@
+- request:
+    url: /login
+    method: POST
+
+  response:
+    status: 200
+
+- request:
+    url: /logout
+    method: POST
+  
+  response:
+    status: 200
+
+- request:
+    url: /
+    method: GET
+    
+  response:
+    status: 200
+
+# - request:
+#     url: /profile
+#     method: GET
+  
+#   response:
+#     status: 200
